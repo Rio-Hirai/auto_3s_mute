@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Auto 3s Mute",
+  "version": "1.0.0",
+  "description": "マイクの音声レベルが一定以下になったら3秒後に自動でミュートする拡張機能",
+  "permissions": ["activeTab", "storage", "tabs", "notifications"],
+  "host_permissions": ["https://meet.google.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://meet.google.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Auto 3s Mute"
+  },
+  "options_page": "options.html",
+  "icons": {
+    "16": "icons/icon16.svg",
+    "48": "icons/icon48.svg",
+    "128": "icons/icon128.svg"
+  }
+}

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SVG to PNG 変換</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      .converter {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      button {
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 5px;
+      }
+      button:hover {
+        background: #45a049;
+      }
+      .preview {
+        margin: 10px 0;
+        text-align: center;
+      }
+      img {
+        border: 1px solid #ddd;
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="converter">
+      <h2>SVG アイコンを PNG に変換</h2>
+      <p>以下のボタンをクリックして、SVGアイコンをPNG形式でダウンロードしてください。</p>
+
+      <div class="preview">
+        <h3>16x16px アイコン</h3>
+        <img id="preview16" src="icons/icon16.svg" width="16" height="16" alt="16px icon" />
+        <br />
+        <button onclick="convertToPNG('icons/icon16.svg', 16, 'icon16.png')">16px PNG をダウンロード</button>
+      </div>
+
+      <div class="preview">
+        <h3>48x48px アイコン</h3>
+        <img id="preview48" src="icons/icon48.svg" width="48" height="48" alt="48px icon" />
+        <br />
+        <button onclick="convertToPNG('icons/icon48.svg', 48, 'icon48.png')">48px PNG をダウンロード</button>
+      </div>
+
+      <div class="preview">
+        <h3>128x128px アイコン</h3>
+        <img id="preview128" src="icons/icon128.svg" width="128" height="128" alt="128px icon" />
+        <br />
+        <button onclick="convertToPNG('icons/icon128.svg', 128, 'icon128.png')">128px PNG をダウンロード</button>
+      </div>
+
+      <div style="margin-top: 30px; padding: 15px; background: #e8f5e8; border-radius: 4px">
+        <h4>使用方法:</h4>
+        <ol>
+          <li>各サイズの「PNG をダウンロード」ボタンをクリックしてください</li>
+          <li>ダウンロードしたPNGファイルを <code>icons/</code> フォルダに配置してください</li>
+          <li>拡張機能を再読み込みしてください</li>
+        </ol>
+      </div>
+    </div>
+
+    <script>
+      async function convertToPNG(svgPath, size, filename) {
+        try {
+          // SVGファイルを読み込み
+          const response = await fetch(svgPath);
+          const svgText = await response.text();
+
+          // SVGをCanvasに描画
+          const canvas = document.createElement("canvas");
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext("2d");
+
+          // SVGを画像として読み込み
+          const img = new Image();
+          img.onload = function () {
+            ctx.drawImage(img, 0, 0, size, size);
+
+            // PNGとしてダウンロード
+            canvas.toBlob(function (blob) {
+              const link = document.createElement("a");
+              link.download = filename;
+              link.href = URL.createObjectURL(blob);
+              link.click();
+            }, "image/png");
+          };
+
+          // SVGをDataURLに変換
+          const svgBlob = new Blob([svgText], { type: "image/svg+xml;charset=utf-8" });
+          const svgUrl = URL.createObjectURL(svgBlob);
+          img.src = svgUrl;
+        } catch (error) {
+          alert("変換中にエラーが発生しました: " + error.message);
+        }
+      }
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auto 3s Mute - 詳細設定</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <div class="options-container">
+      <header class="options-header">
+        <h1>Auto 3s Mute - 詳細設定</h1>
+        <p class="header-description">マイクの音声レベル監視と自動ミュート機能の詳細設定</p>
+      </header>
+
+      <main class="options-main">
+        <section class="settings-section">
+          <h2>基本設定</h2>
+
+          <div class="setting-group">
+            <label class="setting-label">
+              <input type="checkbox" id="enabled" class="checkbox" />
+              <span class="checkbox-text">自動ミュート機能を有効にする</span>
+            </label>
+            <p class="setting-description">Google Meetでマイクの音声レベルを監視し、自動でミュート/ミュート解除を行います</p>
+          </div>
+
+          <div class="setting-group">
+            <label for="volumeThreshold" class="setting-label"> 音量閾値: <span id="thresholdValue">0.10</span> </label>
+            <input type="range" id="volumeThreshold" class="slider" min="0.01" max="0.5" step="0.01" value="0.1" />
+            <div class="slider-info">
+              <span>低い値（0.01-0.05）: より敏感、小さな音でも検出</span>
+              <span>高い値（0.2-0.5）: より鈍感、大きな音のみ検出</span>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <label for="silenceDuration" class="setting-label"> 無音時間: <span id="durationValue">3</span>秒 </label>
+            <input type="range" id="silenceDuration" class="slider" min="1" max="10" step="1" value="3" />
+            <div class="slider-info">
+              <span>音声が検出されなくなってから自動ミュートまでの時間</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="settings-section">
+          <h2>通知設定</h2>
+
+          <div class="setting-group">
+            <label class="setting-label">
+              <input type="checkbox" id="showNotifications" class="checkbox" />
+              <span class="checkbox-text">通知を表示する</span>
+            </label>
+            <p class="setting-description">自動ミュート/ミュート解除時にブラウザ通知を表示します</p>
+          </div>
+
+          <div class="setting-group">
+            <label for="notificationSound" class="setting-label">
+              <input type="checkbox" id="notificationSound" class="checkbox" />
+              <span class="checkbox-text">通知音を再生する</span>
+            </label>
+            <p class="setting-description">通知表示時に音を再生します</p>
+          </div>
+        </section>
+
+        <section class="settings-section">
+          <h2>高度な設定</h2>
+
+          <div class="setting-group">
+            <label for="monitoringInterval" class="setting-label"> 監視間隔: <span id="intervalValue">100</span>ms </label>
+            <input type="range" id="monitoringInterval" class="slider" min="50" max="500" step="50" value="100" />
+            <div class="slider-info">
+              <span>音声レベルをチェックする間隔（短いほど反応が早いがCPU使用率が高い）</span>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <label for="sensitivityMode" class="setting-label"> 感度モード </label>
+            <select id="sensitivityMode" class="select">
+              <option value="normal">標準</option>
+              <option value="high">高感度</option>
+              <option value="low">低感度</option>
+              <option value="custom">カスタム</option>
+            </select>
+            <p class="setting-description">音声検出の感度を設定します</p>
+          </div>
+        </section>
+
+        <section class="settings-section">
+          <h2>統計情報</h2>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">🔇</div>
+              <div class="stat-content">
+                <div class="stat-label">自動ミュート回数</div>
+                <div class="stat-value" id="muteCount">0</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">🔊</div>
+              <div class="stat-content">
+                <div class="stat-label">自動ミュート解除回数</div>
+                <div class="stat-value" id="unmuteCount">0</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">⏰</div>
+              <div class="stat-content">
+                <div class="stat-label">最終活動</div>
+                <div class="stat-value" id="lastActivity">-</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats-actions">
+            <button id="resetStats" class="reset-button">統計をリセット</button>
+            <button id="exportStats" class="export-button">統計をエクスポート</button>
+          </div>
+        </section>
+      </main>
+
+      <footer class="options-footer">
+        <div class="footer-actions">
+          <button id="saveButton" class="save-button">設定を保存</button>
+          <button id="resetButton" class="reset-button">デフォルトに戻す</button>
+        </div>
+        <div class="footer-info">
+          <p>Auto 3s Mute v1.0.0</p>
+          <p>Google Meetでの自動ミュート機能</p>
+        </div>
+      </footer>
+    </div>
+
+    <script src="options.js"></script>
+  </body>
+</html>
